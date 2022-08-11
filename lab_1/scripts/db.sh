@@ -87,25 +87,15 @@ find() {
 }
 
 list() {
-  # TODO fix this
-  # echo $(getopts "r:" option)
-  # while $(getopts "reverse" option); do
-  #   echo $option
-  #   case $option in
-  #   r)
-  #     echo "reverse reverse"
-  #     ;;
-  #   *)
-  #     echo "Invalid option: $OPTARG"
-  #     exit 1
-  #     ;;
-  #   esac
-  # done
   declare -i local line_number=1
-  while read -r line; do
-    echo "$line_number. $line"
-    ((line_number++))
-  done <$users_db
+  if [[ $1 == "--reverse" ]]; then
+    cat --number $users_db | tac
+  else
+    while read -r line; do
+      echo "$line_number. $line"
+      ((line_number++))
+    done <$users_db
+  fi
 }
 
 main() {
